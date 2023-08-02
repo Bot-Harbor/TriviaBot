@@ -14,9 +14,4 @@
       <PackageReference Include="RestSharp" Version="110.2.1-alpha.0.10" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands" />
-      <Folder Include="Models" />
-    </ItemGroup>
-
 </Project>
