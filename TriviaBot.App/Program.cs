@@ -1,3 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using TriviaBot.App;
 
-Console.WriteLine("Hello, World!");
+var configure = new Configure();
+
+await configure.RunBotAsync();
