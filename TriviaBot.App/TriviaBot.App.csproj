@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="Discord.Net" Version="2.4.0" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.51" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
       <PackageReference Include="RestSharp" Version="110.2.1-alpha.0.10" />
     </ItemGroup>
