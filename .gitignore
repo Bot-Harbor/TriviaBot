@@ -257,11 +257,8 @@ paket-files/
 .idea/
 *.sln.iml
 
-# Bot Token
-Secret.cs
-
-# JavaScript File
-api-key.js
+# Constants (Bot Token)
+Constants/
 
 # CodeRush
 .cr/

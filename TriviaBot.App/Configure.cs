@@ -3,6 +3,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using TriviaBot.App.Constants;
 
 namespace TriviaBot.App
 {
