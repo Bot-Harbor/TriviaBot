@@ -1,11 +1,13 @@
 ﻿using System.Web;
+using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using RestSharp;
 using TriviaBot.App.Models;
 
 namespace TriviaBot.App.Commands;
 
-public class TriviaCommand : ModuleBase<SocketCommandContext>
+public class TriviaCommand : CommandBase
 {
     [Command("video games")]
     public async Task TriviaCommandAsync()
@@ -20,15 +22,71 @@ public class TriviaCommand : ModuleBase<SocketCommandContext>
             if (triviaQuestion.Category == "Entertainment: Video Games")
             {
                 var decodedQuestion = DecodeHtml(triviaQuestion.Question);
-                
+
                 var shuffledChoices = ShuffleAnswers(triviaQuestion.AllAnswers);
                 var multipleChoice = MultipleChoice(shuffledChoices);
+
+                var questionEmbed = new EmbedBuilder()
+                    .WithColor(Color.Gold)
+                    .WithTitle($"Category: {triviaQuestion.Category}")
+                    .WithDescription($"**Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
+                    .AddField("Question:", decodedQuestion, inline: false)
+                    .AddField("Choices:", multipleChoice, inline: false)
+                    .WithImageUrl(
+                        "https://princewilliamlivingweb.s3-accelerate.amazonaws.com/2022/01/BBaFnKbM-Trivia-Day--702x336.gif")
+                    .Build();
                 
-                await ReplyAsync(
-                    $"**Category: **{triviaQuestion.Category}{Environment.NewLine}" +
-                    $"**Difficulty: **{triviaQuestion.Difficulty?.ToUpper()}{Environment.NewLine}{Environment.NewLine}" +
-                    $"**Question: **{Environment.NewLine}{decodedQuestion}{Environment.NewLine}{Environment.NewLine}" +
-                    $"**Choices: **{Environment.NewLine}{multipleChoice}");
+                await ReplyAsync(embed: questionEmbed);
+
+                var timeFive = new EmbedBuilder()
+                    .WithColor(Color.LighterGrey)
+                    .WithTitle("5")
+                    .Build();
+                
+                var timeFour = new EmbedBuilder()
+                    .WithColor(Color.LighterGrey)
+                    .WithTitle("4")
+                    .Build();
+                
+                var timeThree = new EmbedBuilder()
+                    .WithColor(Color.LighterGrey)
+                    .WithTitle("3")
+                    .Build();
+                
+                var timeTwo = new EmbedBuilder()
+                    .WithColor(Color.LighterGrey)
+                    .WithTitle("2")
+                    .Build();
+                
+                var timeOne = new EmbedBuilder()
+                    .WithColor(Color.LighterGrey)
+                    .WithTitle("1")
+                    .Build();
+                
+                
+                await Task.Delay(TimeSpan.FromSeconds(15));
+                await ReplyAsync(embed: timeFive);
+                
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                await ReplyAsync(embed: timeFour);
+                
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                await ReplyAsync(embed: timeThree);
+                
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                await ReplyAsync(embed: timeTwo);
+                
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                await ReplyAsync(embed: timeOne);
+                
+                var answerEmbed = new EmbedBuilder()
+                    .WithColor(Color.Green)
+                    .WithTitle("Correct Answer")
+                    .WithDescription($"{triviaQuestion.Correct_Answer}")
+                    .Build();
+                
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                await ReplyAsync(embed: answerEmbed);
             }
             else
             {
@@ -40,7 +98,7 @@ public class TriviaCommand : ModuleBase<SocketCommandContext>
             await ReplyAsync("No trivia questions available.");
         }
     }
-    
+
     private string DecodeHtml(string rawHtml)
     {
         string decodedQuestion = HttpUtility.HtmlDecode(rawHtml);
@@ -48,7 +106,7 @@ public class TriviaCommand : ModuleBase<SocketCommandContext>
 
         return cleanedQuestion;
     }
-    
+
     private static List<T> ShuffleAnswers<T>(List<T> list)
     {
         var random = new Random();
@@ -62,13 +120,13 @@ public class TriviaCommand : ModuleBase<SocketCommandContext>
 
         return list;
     }
-    
+
     private string MultipleChoice(List<string> choices)
     {
-        char[] letters = { 'A', 'B', 'C', 'D'};
+        char[] letters = {'A', 'B', 'C', 'D'};
 
         List<string> multipleChoiceFormat = new List<string>();
-        
+
         for (int i = 0; i < choices.Count; i++)
         {
             if (i < letters.Length)
