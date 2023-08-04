@@ -20,10 +20,10 @@ public class TriviaCommand : ModuleBase<SocketCommandContext>
             if (triviaQuestion.Category == "Entertainment: Video Games")
             {
                 var decodedQuestion = DecodeHtml(triviaQuestion.Question);
+                
                 var shuffledChoices = ShuffleAnswers(triviaQuestion.AllAnswers);
                 var multipleChoice = MultipleChoice(shuffledChoices);
                 
-
                 await ReplyAsync(
                     $"**Category: **{triviaQuestion.Category}{Environment.NewLine}" +
                     $"**Difficulty: **{triviaQuestion.Difficulty?.ToUpper()}{Environment.NewLine}{Environment.NewLine}" +
