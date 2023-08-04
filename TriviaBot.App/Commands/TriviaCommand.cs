@@ -41,54 +41,21 @@ public class TriviaCommand : CommandBase
 
                 await ReplyAsync(embed: questionEmbed);
 
-                var timeFive = new EmbedBuilder()
-                    .WithColor(Color.LighterGrey)
-                    .WithTitle("5")
+                var fiveSecCount = new EmbedBuilder()
+                    .WithColor(Color.DarkRed)
+                    .WithImageUrl("https://i.gifer.com/origin/07/07dbafd836794dc3e165ef798aae5b59_w200.gif")
                     .Build();
-
-                var timeFour = new EmbedBuilder()
-                    .WithColor(Color.LighterGrey)
-                    .WithTitle("4")
-                    .Build();
-
-                var timeThree = new EmbedBuilder()
-                    .WithColor(Color.LighterGrey)
-                    .WithTitle("3")
-                    .Build();
-
-                var timeTwo = new EmbedBuilder()
-                    .WithColor(Color.LighterGrey)
-                    .WithTitle("2")
-                    .Build();
-
-                var timeOne = new EmbedBuilder()
-                    .WithColor(Color.LighterGrey)
-                    .WithTitle("1")
-                    .Build();
-
-                // Change back to 15
-                await Task.Delay(TimeSpan.FromSeconds(3));
-                await ReplyAsync(embed: timeFive);
-
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                await ReplyAsync(embed: timeFour);
-
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                await ReplyAsync(embed: timeThree);
-
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                await ReplyAsync(embed: timeTwo);
-
-                await Task.Delay(TimeSpan.FromSeconds(1));
-                await ReplyAsync(embed: timeOne);
-
+                
+                await Task.Delay(TimeSpan.FromSeconds(10));
+                await ReplyAsync(embed: fiveSecCount);
+                
                 var answerEmbed = new EmbedBuilder()
                     .WithColor(Color.Green)
                     .WithTitle("🎉 Correct Answer 🥳")
                     .WithDescription($"**{decodedCorrectAnswer}**")
                     .Build();
 
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                await Task.Delay(TimeSpan.FromSeconds(5));
                 await ReplyAsync(embed: answerEmbed);
             }
             else
