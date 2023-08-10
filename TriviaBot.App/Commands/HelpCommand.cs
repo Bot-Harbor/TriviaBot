@@ -9,39 +9,42 @@ public class HelpCommand : CommandBase
     public async Task HandleCommandAsync()
     {
         var helpEmbed = new EmbedBuilder()
-            .WithTitle("Trivia Bot Help")
+            .WithTitle("📝 Get Started")
             .WithColor(Color.LighterGrey)
-            .WithDescription("Let's play trivia! Type one of the commands below to get a question.\n\n")
-            .AddField("🎲 Game Commands", 
-                "`triviabot general knowledge`\n" +
-                "`triviabot animals`\n" +
-                "`triviabot history`\n" +
-                "`triviabot science`\n" +
-                "`triviabot sports`\n" +
-                "`triviabot video games`\n" + 
-                "`triviabot music`\n" + 
-                "`triviabot geography`", 
+            .WithDescription(
+                "Let's play trivia! Type one of the commands below to get a question." +
+                "\nTriviaBot powered by [Discord.Net 3.0.0](https://discordnet.dev/) and [Docker](https://www.docker.com/).")
+            .AddField($"🎲 Game Commands",
+                "💡" + $" `triviabot general`{Environment.NewLine}" +
+                "📖" + $" `triviabot history`{Environment.NewLine}" +
+                "🧪" + $" `triviabot science`{Environment.NewLine}" +
+                "🐯" + $" `triviabot animals`{Environment.NewLine}" +
+                "🌏" + $" `triviabot geography`{Environment.NewLine}" +
+                "⚽" + $" `triviabot sports`{Environment.NewLine}" +
+                "🕹️" + $" `triviabot video games`{Environment.NewLine}" +
+                "🎶" + " `triviabot music`",
                 inline: true)
-            .AddField("🛠️ Other Commands",
-                "`triviabot help`\n" +
-                "`triviabot ping`", 
+            .AddField($"🛠️ Other Commands",
+                "🆘" + $" `triviabot help`{Environment.NewLine}" +
+                "🏓" + " `triviabot ping`",
                 inline: true)
             .Build();
 
         var buttons = new ComponentBuilder();
         buttons.WithButton(new ButtonBuilder()
                 .WithLabel("Add TriviaBot To A Server")
-                .WithStyle(ButtonStyle.Link) 
-                .WithUrl("https://discord.com/api/oauth2/authorize?client_id=1136400167411646605&permissions=8&scope=bot")
+                .WithStyle(ButtonStyle.Link)
+                .WithUrl(
+                    "https://discord.com/api/oauth2/authorize?client_id=1136400167411646605&permissions=8&scope=bot")
             )
             .WithButton(new ButtonBuilder()
-                .WithLabel("Source Code")
+                .WithLabel("Contribute Questions")
                 .WithStyle(ButtonStyle.Link)
-                .WithUrl("https://github.com/KalebGarrett/TriviaBot")
+                .WithUrl("https://opentdb.com/")
             )
             .WithButton(new ButtonBuilder()
                 .WithLabel("Host Instance Of TriviaBot")
-                .WithStyle(ButtonStyle.Link) 
+                .WithStyle(ButtonStyle.Link)
                 .WithUrl("https://hub.docker.com/r/kalebg08/triviabot")
             );
 
