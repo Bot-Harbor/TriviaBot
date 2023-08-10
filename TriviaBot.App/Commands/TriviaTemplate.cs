@@ -1,5 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Interactions;
+using Discord.WebSocket;
 using RestSharp;
 using TriviaBot.App.Models;
 
@@ -8,7 +10,8 @@ namespace TriviaBot.App.Commands
     public class TriviaTemplate : CommandBase
     {
         private static readonly Random Random = new Random();
-
+        public static int CorrectAnswerIndex { get; private set; }
+        
         [Command("video games")]
         public async Task TriviaCommandAsync()
         {
@@ -19,63 +22,37 @@ namespace TriviaBot.App.Commands
             if (response.Data != null && response.Data.Results.Count > 0)
             {
                 var triviaQuestion = response.Data.Results[0];
-                if (triviaQuestion != null && triviaQuestion.Category == "Entertainment: Video Games")
+                if (triviaQuestion is {Category: "Entertainment: Video Games"})
                 {
                     var decodedQuestion = DecodeHtml(triviaQuestion.Question);
                     var decodedCorrectAnswer = DecodeHtml(triviaQuestion.Correct_Answer);
                     var decodedAllAnswers = triviaQuestion.AllAnswers.Select(DecodeHtml).ToList();
 
-                    var answerChoices = new List<string> {"A", "B", "C", "D"};
                     var shuffledChoices = ShuffleAnswers(decodedAllAnswers);
-                    var buttons = new ComponentBuilder();
-
-                    for (int i = 0; i < shuffledChoices.Count; i++)
-                    {
-                        buttons.WithButton(new ButtonBuilder().WithLabel($"{answerChoices[i]}. {shuffledChoices[i]}")
-                            .WithCustomId($"choice_{i}").WithStyle(ButtonStyle.Secondary));
-                    }
-
-                    var components = buttons.Build();
+                    var correctAnswerIndex = shuffledChoices.IndexOf(decodedCorrectAnswer);
+                    CorrectAnswerIndex = correctAnswerIndex;
+                    var answerChoices = new List<string> {"A", "B", "C", "D"};
 
                     var questionEmbed = new EmbedBuilder()
                         .WithColor(Color.Gold)
                         .WithTitle($"Category: {triviaQuestion.Category}")
                         .WithDescription($"**Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
                         .AddField("Question:", decodedQuestion, inline: false)
-                        .WithFooter("You have 15 seconds to answer.")
                         .WithImageUrl(
                             "https://images.squarespace-cdn.com/content/v1/5a328d66a8b2b051a8d2f017/1567530555218-OF3Y7UYVG767NHSMP46D/trivianight.gif")
                         .Build();
 
-                    await ReplyAsync(embed: questionEmbed, components: components);
-
-                    await Task.Delay(TimeSpan.FromSeconds(3));
-
-                    var fiveSecCountEmbed = new EmbedBuilder()
-                        .WithTitle("Time Remaining: ")
-                        .WithColor(Color.Gold)
-                        .Build();
-
-                    var message = await ReplyAsync(embed: fiveSecCountEmbed);
-
-                    for (var i = 5; i >= 0; i--)
+                    var answerButtons = new ComponentBuilder();
+                    for (var i = 0; i < shuffledChoices.Count; i++)
                     {
-                        fiveSecCountEmbed = new EmbedBuilder()
-                            .WithTitle($"Time Remaining: {i}")
-                            .WithColor(Color.Gold)
-                            .Build();
-
-                        await message.ModifyAsync(properties => properties.Embed = fiveSecCountEmbed);
-                        await Task.Delay(TimeSpan.FromSeconds(1));
+                        answerButtons.WithButton(new ButtonBuilder()
+                            .WithLabel($"{answerChoices[i]}. {shuffledChoices[i]}")
+                            .WithCustomId($"choice_{i}").WithStyle(ButtonStyle.Secondary));
                     }
+                    
+                    var components = answerButtons.Build();
 
-                    var timeUpEmbed = new EmbedBuilder()
-                        .WithColor(Color.Red)
-                        .WithTitle("⌛ Time's Up!")
-                        .WithDescription($"The correct answer is: **{Environment.NewLine}{decodedCorrectAnswer}**")
-                        .Build();
-
-                    await ReplyAsync(embed: timeUpEmbed);
+                    await ReplyAsync(embed: questionEmbed, components: components);
                 }
                 else
                 {
@@ -83,7 +60,7 @@ namespace TriviaBot.App.Commands
                 }
             }
         }
-
+        
         private string DecodeHtml(string rawHtml)
         {
             var decodedQuestion = System.Net.WebUtility.HtmlDecode(rawHtml);
