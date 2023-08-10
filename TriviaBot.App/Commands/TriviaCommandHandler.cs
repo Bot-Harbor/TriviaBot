@@ -36,7 +36,7 @@ namespace TriviaBot.App.Commands
                         .WithColor(embedColor)
                         .WithTitle($"Category: {triviaQuestion.Category}")
                         .WithDescription($"**Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
-                        .AddField("Question:", decodedQuestion, inline: false)
+                        .AddField($"Question:", $"```{decodedQuestion}```", inline: false)
                         .WithImageUrl(
                             "https://images.squarespace-cdn.com/content/v1/5a328d66a8b2b051a8d2f017/1567530555218-OF3Y7UYVG767NHSMP46D/trivianight.gif")
                         .Build();
