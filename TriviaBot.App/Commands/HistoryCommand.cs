@@ -3,7 +3,7 @@ using Discord.Commands;
 
 namespace TriviaBot.App.Commands;
 
-public class HistoryTriviaCommand : TriviaCommandHandler
+public class HistoryCommand : TriviaCommandHandler
 {
     [Command("history")]
     public async Task SportsCommandAsync()
