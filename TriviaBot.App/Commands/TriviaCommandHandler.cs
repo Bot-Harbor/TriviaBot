@@ -51,8 +51,8 @@ namespace TriviaBot.App.Commands
                             .WithDisabled(false));
                     }
 
-                    var components = answerButtons.Build();
-                    await ReplyAsync(embed: questionEmbed, components: components);
+                    var buttonComponent = answerButtons.Build();
+                    await ReplyAsync(embed: questionEmbed, components: buttonComponent);
                 }
                 else
                 {

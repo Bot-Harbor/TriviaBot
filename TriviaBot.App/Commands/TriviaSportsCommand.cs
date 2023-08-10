@@ -11,5 +11,4 @@ public class TriviaSportsCommand : TriviaCommandHandler
         await TriviaCommandAsync("https://opentdb.com/api.php?amount=1&category=21&type=multiple", "Sports",
             Color.Orange);
     }
-    
 }
