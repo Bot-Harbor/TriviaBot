@@ -13,7 +13,7 @@ namespace TriviaBot.App
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-
+        
         public async Task RunBotAsync()
         {
             _client = new DiscordSocketClient();
@@ -45,7 +45,7 @@ namespace TriviaBot.App
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
-            _client.ButtonExecuted += (component) => ButtonHandler(component, TriviaTemplate.CorrectAnswerIndex);
+            _client.ButtonExecuted += (component) => ButtonHandler(component, TriviaCommandHandler.CorrectAnswerIndex);
         }
 
         private async Task ButtonHandler(SocketMessageComponent component, int correctAnswerIndex)
@@ -56,25 +56,25 @@ namespace TriviaBot.App
             {
                 var correctResponseEmbed = new EmbedBuilder()
                     .WithColor(Color.Green)
-                    .WithTitle("✔️ Correct ✔️")
+                    .WithDescription($"️**✔️ Correct, {component.User.Username}! ✔️**")
                     .Build();
 
                 await component.RespondAsync(embed: correctResponseEmbed);
             }
             else
             {
-                var answerLetters = new[] { "A", "B", "C", "D" };
+                var answerLetters = new[] {"A", "B", "C", "D"};
 
                 var incorrectAnswerEmbed = new EmbedBuilder()
                     .WithColor(Color.Red)
-                    .WithTitle("❌ Incorrect ❌")
-                    .WithDescription($"The correct answer is: {answerLetters[correctAnswerIndex]}")
+                    .WithDescription(
+                        $"**❌ Incorrect, {component.User.Username}! ❌{Environment.NewLine}** ```The correct answer is: {answerLetters[correctAnswerIndex]}```")
                     .Build();
 
                 await component.RespondAsync(embed: incorrectAnswerEmbed);
             }
         }
-
+        
         private async Task HandleCommandAsync(SocketMessage socketMessage)
         {
             var message = socketMessage as SocketUserMessage;

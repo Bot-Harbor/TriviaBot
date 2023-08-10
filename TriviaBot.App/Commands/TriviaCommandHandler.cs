@@ -7,22 +7,21 @@ using TriviaBot.App.Models;
 
 namespace TriviaBot.App.Commands
 {
-    public class TriviaTemplate : CommandBase
+    public class TriviaCommandHandler : CommandBase
     {
         private static readonly Random Random = new Random();
-        public static int CorrectAnswerIndex { get; private set; }
-        
-        [Command("video games")]
-        public async Task TriviaCommandAsync()
+        public static int CorrectAnswerIndex { get; set; }
+    
+        protected async Task TriviaCommandAsync(string endpoint, string category, Color embedColor)
         {
             var restClient = new RestClient();
-            var request = new RestRequest("https://opentdb.com/api.php?amount=1&category=15&type=multiple");
+            var request = new RestRequest(endpoint);
             var response = await restClient.ExecuteAsync<TriviaModel>(request);
 
             if (response.Data != null && response.Data.Results.Count > 0)
             {
                 var triviaQuestion = response.Data.Results[0];
-                if (triviaQuestion is {Category: "Entertainment: Video Games"})
+                if (triviaQuestion is {Category: var questionCategory} && questionCategory == category)
                 {
                     var decodedQuestion = DecodeHtml(triviaQuestion.Question);
                     var decodedCorrectAnswer = DecodeHtml(triviaQuestion.Correct_Answer);
@@ -34,7 +33,7 @@ namespace TriviaBot.App.Commands
                     var answerChoices = new List<string> {"A", "B", "C", "D"};
 
                     var questionEmbed = new EmbedBuilder()
-                        .WithColor(Color.Gold)
+                        .WithColor(embedColor)
                         .WithTitle($"Category: {triviaQuestion.Category}")
                         .WithDescription($"**Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
                         .AddField("Question:", decodedQuestion, inline: false)
@@ -47,11 +46,12 @@ namespace TriviaBot.App.Commands
                     {
                         answerButtons.WithButton(new ButtonBuilder()
                             .WithLabel($"{answerChoices[i]}. {shuffledChoices[i]}")
-                            .WithCustomId($"choice_{i}").WithStyle(ButtonStyle.Secondary));
+                            .WithCustomId($"choice_{i}")
+                            .WithStyle(ButtonStyle.Secondary)
+                            .WithDisabled(false));
                     }
-                    
-                    var components = answerButtons.Build();
 
+                    var components = answerButtons.Build();
                     await ReplyAsync(embed: questionEmbed, components: components);
                 }
                 else
@@ -60,7 +60,7 @@ namespace TriviaBot.App.Commands
                 }
             }
         }
-        
+
         private string DecodeHtml(string rawHtml)
         {
             var decodedQuestion = System.Net.WebUtility.HtmlDecode(rawHtml);
