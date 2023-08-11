@@ -12,7 +12,7 @@ namespace TriviaBot.App.Commands
         private static readonly Random Random = new Random();
         public static int CorrectAnswerIndex { get; set; }
 
-        protected async Task TriviaCommandAsync(string endpoint, string category, Color embedColor)
+        protected async Task TriviaCommandAsync(string endpoint, string category, Color embedColor, string img)
         {
             var restClient = new RestClient();
             var request = new RestRequest(endpoint);
@@ -37,8 +37,7 @@ namespace TriviaBot.App.Commands
                         .WithTitle($"🗃️ Category: {triviaQuestion.Category}")
                         .WithDescription($"💪🏻 **Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
                         .AddField($"❓ Question:", $"```{decodedQuestion}```", inline: false)
-                        .WithImageUrl(
-                            "https://images.squarespace-cdn.com/content/v1/5a328d66a8b2b051a8d2f017/1567530555218-OF3Y7UYVG767NHSMP46D/trivianight.gif")
+                        .WithImageUrl(img)
                         .Build();
 
                     var answerButtons = new ComponentBuilder();
@@ -61,7 +60,35 @@ namespace TriviaBot.App.Commands
                 }
             }
         }
+        
+        public async Task ButtonHandler(SocketMessageComponent component, int correctAnswerIndex)
+        {
+            var selectedChoiceIndex = int.Parse(component.Data.CustomId.Substring("choice_".Length));
 
+            if (selectedChoiceIndex == correctAnswerIndex)
+            {
+                var correctResponseEmbed = new EmbedBuilder()
+                    .WithColor(Color.DarkGreen)
+                    .WithTitle($"️**✔️ Correct, {component.User.Username}!**")
+                    .Build();
+
+                await component.RespondAsync(embed: correctResponseEmbed);
+            }
+            else
+            {
+                var answerLetters = new[] {"A", "B", "C", "D"};
+
+                var incorrectAnswerEmbed = new EmbedBuilder()
+                    .WithColor(Color.DarkRed)
+                    .WithTitle(
+                        $"**❌ Incorrect, {component.User.Username}!{Environment.NewLine}**")
+                    .WithDescription($"```The correct answer is: {answerLetters[correctAnswerIndex]}```")
+                    .Build();
+
+                await component.RespondAsync(embed: incorrectAnswerEmbed);
+            }
+        }
+        
         private string DecodeHtml(string rawHtml)
         {
             var decodedQuestion = System.Net.WebUtility.HtmlDecode(rawHtml);

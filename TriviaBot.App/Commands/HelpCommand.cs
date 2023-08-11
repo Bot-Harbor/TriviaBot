@@ -9,7 +9,7 @@ public class HelpCommand : CommandBase
     public async Task HandleCommandAsync()
     {
         var helpEmbed = new EmbedBuilder()
-            .WithTitle("📝 Get Started")
+            .WithTitle("📝 Geting Started")
             .WithColor(Color.LighterGrey)
             .WithDescription(
                 "Let's play trivia! Type one of the commands below to get a question." +

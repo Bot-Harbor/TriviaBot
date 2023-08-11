@@ -45,37 +45,10 @@ namespace TriviaBot.App
             _client.MessageReceived += HandleCommandAsync;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
-            _client.ButtonExecuted += (component) => ButtonHandler(component, TriviaCommandHandler.CorrectAnswerIndex);
+            var triviaCommandHandler = new TriviaCommandHandler(); 
+            _client.ButtonExecuted += (component) => triviaCommandHandler.ButtonHandler(component, TriviaCommandHandler.CorrectAnswerIndex);
         }
-
-        private async Task ButtonHandler(SocketMessageComponent component, int correctAnswerIndex)
-        {
-            var selectedChoiceIndex = int.Parse(component.Data.CustomId.Substring("choice_".Length));
-
-            if (selectedChoiceIndex == correctAnswerIndex)
-            {
-                var correctResponseEmbed = new EmbedBuilder()
-                    .WithColor(Color.DarkGreen)
-                    .WithTitle($"️**✔️ Correct, {component.User.Username}!**")
-                    .Build();
-
-                await component.RespondAsync(embed: correctResponseEmbed);
-            }
-            else
-            {
-                var answerLetters = new[] {"A", "B", "C", "D"};
-
-                var incorrectAnswerEmbed = new EmbedBuilder()
-                    .WithColor(Color.DarkRed)
-                    .WithTitle(
-                        $"**❌ Incorrect, {component.User.Username}!{Environment.NewLine}**")
-                    .WithDescription($"```The correct answer is: {answerLetters[correctAnswerIndex]}```")
-                    .Build();
-
-                await component.RespondAsync(embed: incorrectAnswerEmbed);
-            }
-        }
-        
+    
         private async Task HandleCommandAsync(SocketMessage socketMessage)
         {
             var message = socketMessage as SocketUserMessage;
