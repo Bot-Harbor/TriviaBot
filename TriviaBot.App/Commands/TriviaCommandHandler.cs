@@ -11,7 +11,7 @@ namespace TriviaBot.App.Commands
     {
         private static readonly Random Random = new Random();
         public static int CorrectAnswerIndex { get; set; }
-    
+
         protected async Task TriviaCommandAsync(string endpoint, string category, Color embedColor)
         {
             var restClient = new RestClient();
@@ -42,6 +42,7 @@ namespace TriviaBot.App.Commands
                         .Build();
 
                     var answerButtons = new ComponentBuilder();
+             
                     for (var i = 0; i < shuffledChoices.Count; i++)
                     {
                         answerButtons.WithButton(new ButtonBuilder()

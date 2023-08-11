@@ -55,8 +55,8 @@ namespace TriviaBot.App
             if (selectedChoiceIndex == correctAnswerIndex)
             {
                 var correctResponseEmbed = new EmbedBuilder()
-                    .WithColor(Color.Green)
-                    .WithDescription($"️**✔️ Correct, {component.User.Username}!**")
+                    .WithColor(Color.DarkGreen)
+                    .WithTitle($"️**✔️ Correct, {component.User.Username}!**")
                     .Build();
 
                 await component.RespondAsync(embed: correctResponseEmbed);
@@ -66,9 +66,10 @@ namespace TriviaBot.App
                 var answerLetters = new[] {"A", "B", "C", "D"};
 
                 var incorrectAnswerEmbed = new EmbedBuilder()
-                    .WithColor(Color.Red)
-                    .WithDescription(
-                        $"**❌ Incorrect, {component.User.Username}!{Environment.NewLine}** ```The correct answer is: {answerLetters[correctAnswerIndex]}```")
+                    .WithColor(Color.DarkRed)
+                    .WithTitle(
+                        $"**❌ Incorrect, {component.User.Username}!{Environment.NewLine}**")
+                    .WithDescription($"```The correct answer is: {answerLetters[correctAnswerIndex]}```")
                     .Build();
 
                 await component.RespondAsync(embed: incorrectAnswerEmbed);
