@@ -1,6 +1,4 @@
 ﻿using Discord;
-using Discord.Commands;
-using Discord.Interactions;
 using Discord.WebSocket;
 using RestSharp;
 using TriviaBot.App.Models;
@@ -11,6 +9,8 @@ namespace TriviaBot.App.Commands
     {
         private static readonly Random Random = new Random();
         public static int CorrectAnswerIndex { get; set; }
+        private readonly List<ButtonBuilder> _answerButtonBuilder = new List<ButtonBuilder>();
+        public static string DisplayAnswer { get; set; }
 
         protected async Task TriviaCommandAsync(string endpoint, string category, Color embedColor, string img)
         {
@@ -25,6 +25,7 @@ namespace TriviaBot.App.Commands
                 {
                     var decodedQuestion = DecodeHtml(triviaQuestion.Question);
                     var decodedCorrectAnswer = DecodeHtml(triviaQuestion.Correct_Answer);
+                    DisplayAnswer = decodedCorrectAnswer;
                     var decodedAllAnswers = triviaQuestion.AllAnswers.Select(DecodeHtml).ToList();
 
                     var shuffledChoices = ShuffleAnswers(decodedAllAnswers);
@@ -37,18 +38,23 @@ namespace TriviaBot.App.Commands
                         .WithTitle($"🗃️ Category: {triviaQuestion.Category}")
                         .WithDescription($"💪🏻 **Difficulty: **{triviaQuestion.Difficulty.ToUpper()}")
                         .AddField($"❓ Question:", $"```{decodedQuestion}```", inline: false)
+                        .WithFooter("*Answer buttons will be hidden after answering")
                         .WithImageUrl(img)
                         .Build();
 
                     var answerButtons = new ComponentBuilder();
-             
+
                     for (var i = 0; i < shuffledChoices.Count; i++)
                     {
-                        answerButtons.WithButton(new ButtonBuilder()
+                        var buttonBuilder = new ButtonBuilder()
                             .WithLabel($"{answerChoices[i]}. {shuffledChoices[i]}")
                             .WithCustomId($"choice_{i}")
                             .WithStyle(ButtonStyle.Secondary)
-                            .WithDisabled(false));
+                            .WithDisabled(false);
+
+                        _answerButtonBuilder.Add(buttonBuilder);
+
+                        answerButtons.WithButton(buttonBuilder);
                     }
 
                     var buttonComponent = answerButtons.Build();
@@ -61,34 +67,54 @@ namespace TriviaBot.App.Commands
             }
         }
         
-        public async Task ButtonHandler(SocketMessageComponent component, int correctAnswerIndex)
+        public async Task ButtonHandler(SocketMessageComponent component, int correctAnswerIndex, string correctAnswer)
         {
             var selectedChoiceIndex = int.Parse(component.Data.CustomId.Substring("choice_".Length));
+
+            var answerLetters = new[] {"A", "B", "C", "D"};
 
             if (selectedChoiceIndex == correctAnswerIndex)
             {
                 var correctResponseEmbed = new EmbedBuilder()
                     .WithColor(Color.DarkGreen)
                     .WithTitle($"️**✔️ Correct, {component.User.Username}!**")
+                    .WithDescription($"```{answerLetters[correctAnswerIndex]}: {correctAnswer}```")
                     .Build();
 
-                await component.RespondAsync(embed: correctResponseEmbed);
+                await component.Message.ReplyAsync(embed: correctResponseEmbed);
             }
             else
             {
-                var answerLetters = new[] {"A", "B", "C", "D"};
-
                 var incorrectAnswerEmbed = new EmbedBuilder()
                     .WithColor(Color.DarkRed)
                     .WithTitle(
                         $"**❌ Incorrect, {component.User.Username}!{Environment.NewLine}**")
-                    .WithDescription($"```The correct answer is: {answerLetters[correctAnswerIndex]}```")
+                    .WithDescription(
+                        $"```The correct answer is {answerLetters[correctAnswerIndex]}: {correctAnswer}```")
                     .Build();
 
-                await component.RespondAsync(embed: incorrectAnswerEmbed);
+                await component.Message.ReplyAsync(embed: incorrectAnswerEmbed);
             }
+
+            var updatedButtons = new ComponentBuilder();
+
+            await component.Message.ModifyAsync(message =>
+            {
+                foreach (var originalButtonBuilder in _answerButtonBuilder)
+                {
+                    var updatedButtonBuilder = new ButtonBuilder()
+                        .WithLabel(originalButtonBuilder.Label)
+                        .WithCustomId(originalButtonBuilder.CustomId)
+                        .WithStyle(ButtonStyle.Secondary)
+                        .WithDisabled(true);
+
+                    updatedButtons.WithButton(updatedButtonBuilder);
+                }
+
+                message.Components = updatedButtons.Build();
+            });
         }
-        
+
         private string DecodeHtml(string rawHtml)
         {
             var decodedQuestion = System.Net.WebUtility.HtmlDecode(rawHtml);

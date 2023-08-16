@@ -46,16 +46,16 @@ namespace TriviaBot.App
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
             var triviaCommandHandler = new TriviaCommandHandler(); 
-            _client.ButtonExecuted += (component) => triviaCommandHandler.ButtonHandler(component, TriviaCommandHandler.CorrectAnswerIndex);
+            _client.ButtonExecuted += (component) => triviaCommandHandler.ButtonHandler(component, TriviaCommandHandler.CorrectAnswerIndex, TriviaCommandHandler.DisplayAnswer);
         }
     
         private async Task HandleCommandAsync(SocketMessage socketMessage)
         {
             var message = socketMessage as SocketUserMessage;
             var context = new SocketCommandContext(_client, message);
-            if (message.Author.IsBot) return;
+            if (message != null && message.Author.IsBot) return;
 
-            int argPos = 0;
+            var argPos = 0;
             if (message.HasStringPrefix("triviabot ", ref argPos))
             {
                 await Execute();
