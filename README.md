@@ -17,12 +17,6 @@ Want to invite TriviaBot to your own Discord server?
 
 ---
 
-Want to pull the latest Docker image to host your own instance of TriviaBot?
-
-[https://hub.docker.com/r/kalebg08/triviabot](https://hub.docker.com/r/kalebg08/triviabot)
-
----
-
 Great and affordable resource for hosting images!
 
 [https://www.digitalocean.com/](https://www.digitalocean.com/)
