@@ -41,11 +41,6 @@ public class HelpCommand : CommandBase
                 .WithLabel("Contribute Questions")
                 .WithStyle(ButtonStyle.Link)
                 .WithUrl("https://opentdb.com/")
-            )
-            .WithButton(new ButtonBuilder()
-                .WithLabel("Host Instance Of TriviaBot")
-                .WithStyle(ButtonStyle.Link)
-                .WithUrl("https://hub.docker.com/r/kalebg08/triviabot")
             );
 
         var buttonComponent = buttons.Build();
