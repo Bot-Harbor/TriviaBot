@@ -45,16 +45,16 @@ Great and affordable resource for hosting images!
 
 ## Screenshots
 
-![image](/Documentation/about.png)
+![image](/Images/about.png)
 
-![image](/Documentation/help.png)
+![image](/Images/help.png)
 
-![image](/Documentation/ping.png)
+![image](/Images/ping.png)
 
-![image](/Documentation/geography.png)
+![image](/Images/geography.png)
 
-![image](/Documentation/geography-answered.png)
+![image](/Images/geography-answered.png)
 
-![image](/Documentation/science.png)
+![image](/Images/science.png)
 
-![image](/Documentation/science-answered.png)
+![image](/Images/science-answered.png)
