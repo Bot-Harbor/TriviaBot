@@ -3,10 +3,10 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using TriviaBot.App.Commands;
-using TriviaBot.App.Constants;
+using TriviaBot.App.Old.Commands;
+using TriviaBot.App.Old.Constants;
 
-namespace TriviaBot.App
+namespace TriviaBot.App.Old
 {
     class Configure : Secret
     {

@@ -1,9 +1,9 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using RestSharp;
-using TriviaBot.App.Models;
+using TriviaBot.App.Old.Models;
 
-namespace TriviaBot.App.Commands
+namespace TriviaBot.App.Old.Commands
 {
     public class TriviaCommandHandler : CommandBase
     {

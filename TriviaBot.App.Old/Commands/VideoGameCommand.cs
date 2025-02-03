@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 
-namespace TriviaBot.App.Commands;
+namespace TriviaBot.App.Old.Commands;
 
 public class VideoGameCommand : TriviaCommandHandler
 {

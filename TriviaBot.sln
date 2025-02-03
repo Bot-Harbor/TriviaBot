@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBot.App", "TriviaBot.App\TriviaBot.App.csproj", "{79064007-00E7-42CE-BC57-D46607C60E2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBot.App.Old", "TriviaBot.App.Old\TriviaBot.App.Old.csproj", "{79064007-00E7-42CE-BC57-D46607C60E2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

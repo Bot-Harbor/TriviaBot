@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TriviaBot.App.Models;
+namespace TriviaBot.App.Old.Models;
 
 public class ResultModel
 {
