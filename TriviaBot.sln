@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriviaBot.App.Old", "TriviaBot.App.Old\TriviaBot.App.Old.csproj", "{79064007-00E7-42CE-BC57-D46607C60E2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Triviabot.App", "Triviabot.App\Triviabot.App.csproj", "{6B25D317-3AE3-4363-964A-3AA070127196}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{79064007-00E7-42CE-BC57-D46607C60E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79064007-00E7-42CE-BC57-D46607C60E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79064007-00E7-42CE-BC57-D46607C60E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B25D317-3AE3-4363-964A-3AA070127196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B25D317-3AE3-4363-964A-3AA070127196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B25D317-3AE3-4363-964A-3AA070127196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B25D317-3AE3-4363-964A-3AA070127196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
