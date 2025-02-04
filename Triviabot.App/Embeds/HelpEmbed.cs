@@ -48,23 +48,24 @@ public class HelpEmbed
 
         helpEmbed.AddField
         (
-            "\ud83c\udfb2  **Game Commands**",
-            "\ud83d\udca1  </general:>\n" +
-            "\ud83d\udcd6  </history:>\n" +
-            "\ud83e\uddea  </science:>\n" +
-            "\ud83d\udc2f  </animals:>\n" +
-            "\ud83c\udf0f   </geography:>\n" +
-            "\u26bd  </sports:>\n" +
-            "\ud83d\udd79\ufe0f  </video-games:>\n" +
-            "\ud83c\udfb6   </music:>\n",
+            "\ud83e\udd16  **Commands**",
+            "\ud83c\udd98  </help:1336095627364536433>\n" +
+            "\ud83c\udfd3  </ping:1336092230888325141>\n" +
+            "\u2753  </question:1336439119320186963>\n", 
             true
         );
-
+        
         helpEmbed.AddField
         (
-            "\ud83d\udee0\ufe0f  **Other Commands**",
-            "\ud83c\udd98  </help:>\n" +
-            "\ud83c\udfd3  </ping:1336092230888325141>\n",
+            "\ud83d\udd20  **Trivia Categories**",
+            "\ud83d\udca1  General Knowledge\n" +
+            "\ud83d\udcd6  History\n" +
+            "\ud83e\uddea  Science\n" +
+            "\ud83d\udc2f  Animals\n" +
+            "\ud83c\udf0f   Geography\n" +
+            "\u26bd   Sports\n" +
+            "\ud83d\udd79\ufe0f  Video Games\n" +
+            "\ud83c\udfb6   Music\n",
             true
         );
 
