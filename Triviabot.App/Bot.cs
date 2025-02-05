@@ -27,5 +27,6 @@ public class Bot : BackgroundService
         var slashCommands = _client.UseSlashCommands(new SlashCommandsConfiguration {Services = _serviceProvider});
         slashCommands.RegisterCommands<PingCommand>();
         slashCommands.RegisterCommands<HelpCommand>();
+        slashCommands.RegisterCommands<QuestionCommand>();
     }
 }

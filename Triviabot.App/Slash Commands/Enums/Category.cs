@@ -4,7 +4,7 @@ namespace Triviabot.App.Slash_Commands.Enums;
 
 public enum Category
 {
-    [ChoiceName("General")] General = 9,
+    [ChoiceName("General Knowledge")] GeneralKnowledge = 9,
     [ChoiceName("History")] History = 23,
     [ChoiceName("Science")] Science = 17,
     [ChoiceName("Animals")] Animals = 27,

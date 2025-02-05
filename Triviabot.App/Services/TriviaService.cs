@@ -14,16 +14,24 @@ public class TriviaService
 
     public async Task<TriviaModel> Get(int category)
     {
-       var result =  await _httpClient.GetAsync($"https://opentdb.com/api.php?amount=1&category={category}&type=multiple");
+        try
+        {
+            var result =
+                await _httpClient.GetAsync($"https://opentdb.com/api.php?amount=1&category={category}&type=multiple");
 
-       if (!result.IsSuccessStatusCode)
-       {
-           return null;
-       }
-       
-       var json = await result.Content.ReadAsStringAsync();
-       var root = JsonSerializer.Deserialize<TriviaModel>(json);
+            if (!result.IsSuccessStatusCode)
+            {
+                return new TriviaModel();
+            }
 
-       return root;
+            var json = await result.Content.ReadAsStringAsync();
+            var root = JsonSerializer.Deserialize<TriviaModel>(json);
+
+            return root;
+        }
+        catch (Exception)
+        {
+            return new TriviaModel();
+        }
     }
 }
