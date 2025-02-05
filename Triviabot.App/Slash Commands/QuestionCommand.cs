@@ -8,7 +8,7 @@ namespace Triviabot.App.Slash_Commands;
 
 public class QuestionCommand : ApplicationCommandModule
 {
-    [SlashCommand("question", "Generates a question.")]
+    [SlashCommand("question", "Request a question.")]
     public async Task QuestionCommandAsync(InteractionContext context,
         [Option("category", "Choose a category")]
         Category category)
@@ -18,15 +18,23 @@ public class QuestionCommand : ApplicationCommandModule
         var client = new HttpClient();
         var triviaService = new TriviaService(client);
         var trivia = await triviaService.Get(category.GetHashCode());
-        var results = trivia.Results;
-
-        if (results == null || results.Count == 0)
+        
+        if (trivia == null)
         {
             var noQuestionsEmbed = new NoQuestionsEmbed();
             await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(noQuestionsEmbed.Build()));
+            return;
         }
-
+        
+        if (trivia.ResponseCode == 5)
+        {
+            var rateLimitEmbed = new RateLimitEmbed();
+            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(rateLimitEmbed.Build()));
+            return;
+        }
+        
         var questionEmbed = new QuestionEmbed();
+        var results = trivia.Results;
         await context.FollowUpAsync(new DiscordFollowupMessageBuilder(questionEmbed.Build(results)));
     }
 }
