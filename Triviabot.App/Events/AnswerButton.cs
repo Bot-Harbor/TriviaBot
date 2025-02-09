@@ -20,47 +20,17 @@ public class AnswerButton
         var actionRows = buttonInteraction.Message.Components!.ToList()!;
         var buttons = new List<DiscordButtonComponent>();
 
-        if (buttonInteraction.Interaction.Data.CustomId == questionMessage.CorrectAnswer)
+        try
         {
-            foreach (var actionRow in actionRows)
+            if (buttonInteraction.Interaction.Data.CustomId == questionMessage.CorrectAnswer)
             {
-                for (var i = 0; i < actionRow.Components.Count; i++)
+                foreach (var actionRow in actionRows)
                 {
-                    var component = actionRow.Components[i];
-                    ButtonStyle buttonStyle;
-
-                    if (component.CustomId == questionMessage.CorrectAnswer)
+                    for (var i = 0; i < actionRow.Components.Count; i++)
                     {
-                        buttonStyle = ButtonStyle.Success;
-                    }
-                    else
-                    {
-                        buttonStyle = ButtonStyle.Secondary;
-                    }
+                        var component = actionRow.Components[i];
+                        ButtonStyle buttonStyle;
 
-                    buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
-                        $"{answerLetters[i]}. {component.CustomId}", disabled: true));
-                }
-            }
-        }
-        else
-        {
-            foreach (var actionRow in actionRows)
-            {
-                for (var i = 0; i < actionRow.Components.Count; i++)
-                {
-                    var component = actionRow.Components[i];
-                    ButtonStyle buttonStyle;
-
-                    if (component.CustomId == buttonInteraction.Interaction.Data.CustomId)
-                    {
-                        buttonStyle = ButtonStyle.Danger;
-
-                        buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
-                            $"{answerLetters[i]}. {component.CustomId}", disabled: true));
-                    }
-                    else
-                    {
                         if (component.CustomId == questionMessage.CorrectAnswer)
                         {
                             buttonStyle = ButtonStyle.Success;
@@ -75,10 +45,49 @@ public class AnswerButton
                     }
                 }
             }
-        }
+            else
+            {
+                foreach (var actionRow in actionRows)
+                {
+                    for (var i = 0; i < actionRow.Components.Count; i++)
+                    {
+                        var component = actionRow.Components[i];
+                        ButtonStyle buttonStyle;
 
-        await channel.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-            new DiscordInteractionResponseBuilder().AddEmbed(messageEmbed!).AddComponents(buttons));
-        Bot.QuestionMessages.Remove(messageId);
+                        if (component.CustomId == buttonInteraction.Interaction.Data.CustomId)
+                        {
+                            buttonStyle = ButtonStyle.Danger;
+
+                            buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
+                                $"{answerLetters[i]}. {component.CustomId}", disabled: true));
+                        }
+                        else
+                        {
+                            if (component.CustomId == questionMessage.CorrectAnswer)
+                            {
+                                buttonStyle = ButtonStyle.Success;
+                            }
+                            else
+                            {
+                                buttonStyle = ButtonStyle.Secondary;
+                            }
+
+                            buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
+                                $"{answerLetters[i]}. {component.CustomId}", disabled: true));
+                        }
+                    }
+                }
+            }
+
+            await channel.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                new DiscordInteractionResponseBuilder().AddEmbed(messageEmbed!).AddComponents(buttons));
+            Bot.QuestionMessages.Remove(messageId);
+        }
+        catch (Exception)
+        {
+            var errorEmbed = new ErrorEmbed();
+            await channel.CreateResponseAsync(InteractionResponseType.ChannelMessageWithSource,
+                new DiscordInteractionResponseBuilder().AddEmbed(errorEmbed.Build()));
+        }
     }
 }
