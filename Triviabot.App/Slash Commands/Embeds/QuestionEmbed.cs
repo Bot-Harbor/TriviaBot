@@ -3,49 +3,42 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using Triviabot.App.Models;
 
-namespace Triviabot.App.Embeds;
+namespace Triviabot.App.Slash_Commands.Embeds;
 
 public class QuestionEmbed
 {
-    public DiscordMessageBuilder Build(List<ResultModel> results)
+    public DiscordMessageBuilder Build(ResultModel result)
     {
-        var trivia = results.FirstOrDefault();
-        var decodedCategory = WebUtility.HtmlDecode(trivia!.Category);
+        var decodedCategory = WebUtility.HtmlDecode(result!.Category);
 
         var embed = new DiscordEmbedBuilder
         {
-            Title = $"\ud83d\uddc3\ufe0f Category: {WebUtility.HtmlDecode(trivia!.Category)}",
+            Title = $"\ud83d\uddc3\ufe0f Category: {WebUtility.HtmlDecode(result!.Category)}",
             Description =
-                $"\ud83d\udcaa\ud83c\udffb **Difficulty:** {WebUtility.HtmlDecode(trivia!.Difficulty.ToUpper())}",
+                $"\ud83d\udcaa\ud83c\udffb **Difficulty:** {WebUtility.HtmlDecode(result!.Difficulty.ToUpper())}",
             Color = GetCategoryStyle(decodedCategory).color,
             Thumbnail = new DiscordEmbedBuilder.EmbedThumbnail()
             {
                 Url = GetCategoryStyle(decodedCategory).url
-            },
-            Footer = new DiscordEmbedBuilder.EmbedFooter()
-            {
-                Text = "You get 10 seconds to answer."
             }
         };
 
-        embed.AddField("\u2753 Question", $"```{WebUtility.HtmlDecode(trivia.Question)}```");
+        embed.AddField("\u2753 Question", $"```{WebUtility.HtmlDecode(result.Question)}```");
 
-        var choices = new List<string> {WebUtility.HtmlDecode(trivia.CorrectAnswer)};
-
-        foreach (var incorrectAnswer in trivia.IncorrectAnswers)
+        var choices = new List<string> {WebUtility.HtmlDecode(result.CorrectAnswer)};
+        foreach (var incorrectAnswer in result.IncorrectAnswers)
         {
-            choices.Add(WebUtility.HtmlDecode(incorrectAnswer.ToString()));
+            choices.Add(WebUtility.HtmlDecode(incorrectAnswer));
         }
-        
+
         Shuffle(choices);
 
-        var i = 1;
         var answerLetters = new[] {"A", "B", "C", "D"};
         var buttons = new List<DiscordButtonComponent>();
-        
+
         foreach (var (answerLetter, choice) in answerLetters.Zip(choices))
         {
-            buttons.Add(new(ButtonStyle.Primary, $"{i++}", $"{answerLetter}. {choice}"));
+            buttons.Add(new(ButtonStyle.Primary, $"{choice}", $"{answerLetter}. {choice}"));
         }
 
         var messageBuilder = new DiscordMessageBuilder();

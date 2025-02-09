@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.SlashCommands;
 using Microsoft.Extensions.Hosting;
+using Triviabot.App.Events;
 using Triviabot.App.Slash_Commands;
 
 namespace Triviabot.App;
@@ -9,6 +10,7 @@ public class Bot : BackgroundService
 {
     private readonly DiscordClient _client;
     private readonly IServiceProvider _serviceProvider;
+    public static readonly Dictionary<ulong, QuestionMessage> QuestionMessages = new();
 
     public Bot(DiscordClient client, IServiceProvider serviceProvider)
     {
@@ -20,6 +22,7 @@ public class Bot : BackgroundService
     {
         await _client.ConnectAsync();
         SlashCommands();
+        ButtonEvents();
     }
 
     private void SlashCommands()
@@ -28,5 +31,15 @@ public class Bot : BackgroundService
         slashCommands.RegisterCommands<PingCommand>();
         slashCommands.RegisterCommands<HelpCommand>();
         slashCommands.RegisterCommands<QuestionCommand>();
+    }
+
+    private void ButtonEvents()
+    {
+        var answerButton = new AnswerButton();
+
+        _client.ComponentInteractionCreated += async (sender, args) =>
+        {
+            await answerButton.ClientOnComponentInteractionCreated(sender, args);
+        };
     }
 }
