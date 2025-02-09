@@ -1,7 +1,7 @@
 # TriviaBot
-A Discord bot that gives the user trivia questions.
+A Discord bot that presents users with engaging trivia questions to test their knowledge.
 
-Built with Discord.Net 3.0.0, .NET Core 3.1, and Docker.
+Powered by [DSharpPlus 5.0.0](https://github.com/DSharpPlus/DSharpPlus), and [Docker](https://www.docker.com/).
 
 ---
 
@@ -13,42 +13,39 @@ Want the link to utilize the Trivia API?
 
 Want to invite TriviaBot to your own Discord server?
 
-[https://discord.com/api/oauth2/authorize?client_id=1136400167411646605&permissions=8&scope=bot](https://discord.com/api/oauth2/authorize?client_id=1136400167411646605&permissions=8&scope=bot)
+[https://discord.com/oauth2/authorize?client_id=1136400167411646605](https://discord.com/oauth2/authorize?client_id=1136400167411646605)
 
 ---
 
-Great and affordable resource for hosting images!
+Great and affordable resource for hosting bots!
 
 [https://www.digitalocean.com/](https://www.digitalocean.com/)
 
-## Commands
+## 🤖 Commands
 | Command | Description |
 | ------------- | ------------- |
-| `triviabot help` | Assists the user by displaying all available commands |
-| `triviabot ping` | Pings the Discord channel |
-| `triviabot general` | Gives the user a general knowledge question |
-| `triviabot history` | Gives the user a history question |
-| `triviabot science` | Gives the user a science question |
-| `triviabot animals` | Gives the user a question about animals |
-| `triviabot geography` | Gives the user a geography question |
-| `triviabot sports` | Gives the user a sports question |
-| `triviabot video games` | Gives the user a question about video games |
-| `triviabot music` | Gives the user a question about music |
+| `🆘 /help` | Gives information about the bot & available commands |
+| `🏓 /ping` | Will pong back to the server |
+| `❓ /question` | Request a question |
+
+## 🔠 Trivia Categories
+| Command
+| ------------- |
+| `💡 General Knowledge`  |
+| `📖 History`  |
+| `🧪 Science` |
+| `🐯 Animals` |
+| `🌏 Geography` |
+| `⚽ Sports` |
+| `🕹️ Video Games` |
+| `🎶 Music` |
 
 ---
 
 ## Screenshots
 
-![image](/Images/about.png)
+![image](/Documentation/Images/about.png)
 
-![image](/Images/getting-started.png)
+![image](/Documentation/Images/ping.png)
 
-![image](/Images/ping.png)
-
-![image](/Images/geography.png)
-
-![image](/Images/geography-answered.png)
-
-![image](/Images/science.png)
-
-![image](/Images/science-answered.png)
+![image](/Documentation/Images/question.png)
