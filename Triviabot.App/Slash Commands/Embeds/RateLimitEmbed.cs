@@ -1,7 +1,6 @@
-﻿using System.Drawing;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 
-namespace Triviabot.App.Embeds;
+namespace Triviabot.App.Slash_Commands.Embeds;
 
 public class RateLimitEmbed
 {

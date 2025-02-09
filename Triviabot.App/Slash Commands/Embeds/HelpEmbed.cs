@@ -2,7 +2,7 @@
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 
-namespace Triviabot.App.Embeds;
+namespace Triviabot.App.Slash_Commands.Embeds;
 
 public class HelpEmbed
 {

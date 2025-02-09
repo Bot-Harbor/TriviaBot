@@ -1,6 +1,6 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
-using Triviabot.App.Embeds;
+using Triviabot.App.Slash_Commands.Embeds;
 
 namespace Triviabot.App.Slash_Commands;
 

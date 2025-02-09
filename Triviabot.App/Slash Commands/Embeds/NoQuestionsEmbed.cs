@@ -1,6 +1,6 @@
 ﻿using DSharpPlus.Entities;
 
-namespace Triviabot.App.Embeds;
+namespace Triviabot.App.Slash_Commands.Embeds;
 
 public class NoQuestionsEmbed
 {
