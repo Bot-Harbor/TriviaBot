@@ -15,7 +15,7 @@ builder.Services.AddSingleton(new DiscordConfiguration
     Token = Discord.Token,
     Intents = DiscordIntents.All,
     MinimumLogLevel = LogLevel.Information,
-    AutoReconnect = true,
+    AutoReconnect = true
 });
 
 builder.Services.AddLogging(x => x.AddConsole().SetMinimumLevel(LogLevel.Information));

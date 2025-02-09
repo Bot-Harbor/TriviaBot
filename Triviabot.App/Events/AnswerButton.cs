@@ -23,32 +23,22 @@ public class AnswerButton
         try
         {
             if (buttonInteraction.Interaction.Data.CustomId == questionMessage.CorrectAnswer)
-            {
                 foreach (var actionRow in actionRows)
-                {
                     for (var i = 0; i < actionRow.Components.Count; i++)
                     {
                         var component = actionRow.Components[i];
                         ButtonStyle buttonStyle;
 
                         if (component.CustomId == questionMessage.CorrectAnswer)
-                        {
                             buttonStyle = ButtonStyle.Success;
-                        }
                         else
-                        {
                             buttonStyle = ButtonStyle.Secondary;
-                        }
 
                         buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
-                            $"{answerLetters[i]}. {component.CustomId}", disabled: true));
+                            $"{answerLetters[i]}. {component.CustomId}", true));
                     }
-                }
-            }
             else
-            {
                 foreach (var actionRow in actionRows)
-                {
                     for (var i = 0; i < actionRow.Components.Count; i++)
                     {
                         var component = actionRow.Components[i];
@@ -59,25 +49,19 @@ public class AnswerButton
                             buttonStyle = ButtonStyle.Danger;
 
                             buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
-                                $"{answerLetters[i]}. {component.CustomId}", disabled: true));
+                                $"{answerLetters[i]}. {component.CustomId}", true));
                         }
                         else
                         {
                             if (component.CustomId == questionMessage.CorrectAnswer)
-                            {
                                 buttonStyle = ButtonStyle.Success;
-                            }
                             else
-                            {
                                 buttonStyle = ButtonStyle.Secondary;
-                            }
 
                             buttons.Add(new DiscordButtonComponent(buttonStyle, component.CustomId,
-                                $"{answerLetters[i]}. {component.CustomId}", disabled: true));
+                                $"{answerLetters[i]}. {component.CustomId}", true));
                         }
                     }
-                }
-            }
 
             await channel.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder().AddEmbed(messageEmbed!).AddComponents(buttons));

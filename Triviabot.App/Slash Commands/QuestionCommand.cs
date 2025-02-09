@@ -39,9 +39,7 @@ public class QuestionCommand : ApplicationCommandModule
         var messageInfo = await context.FollowUpAsync(new DiscordFollowupMessageBuilder(questionEmbed.Build(results)));
 
         if (!Bot.QuestionMessages.ContainsKey(messageInfo.Id))
-        {
             Bot.QuestionMessages.Add(messageInfo.Id, new QuestionMessage());
-        }
 
         var questionMessage = Bot.QuestionMessages.GetValueOrDefault(messageInfo.Id);
         questionMessage.CorrectAnswer = results!.CorrectAnswer;

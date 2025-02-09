@@ -11,5 +11,5 @@ public enum Category
     [ChoiceName("Geography")] Geography = 22,
     [ChoiceName("Sports")] Sports = 21,
     [ChoiceName("Video Games")] VideoGames = 15,
-    [ChoiceName("Music")] Music = 12,
+    [ChoiceName("Music")] Music = 12
 }

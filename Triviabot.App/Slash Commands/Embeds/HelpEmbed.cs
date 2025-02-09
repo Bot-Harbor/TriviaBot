@@ -51,10 +51,10 @@ public class HelpEmbed
             "\ud83e\udd16  **Commands**",
             "\ud83c\udd98  </help:1336095627364536433>\n" +
             "\ud83c\udfd3  </ping:1336092230888325141>\n" +
-            "\u2753  </question:1336439119320186963>\n", 
+            "\u2753  </question:1336439119320186963>\n",
             true
         );
-        
+
         helpEmbed.AddField
         (
             "\ud83d\udd20  **Trivia Categories**",

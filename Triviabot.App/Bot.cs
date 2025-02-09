@@ -8,9 +8,9 @@ namespace Triviabot.App;
 
 public class Bot : BackgroundService
 {
+    public static readonly Dictionary<ulong, QuestionMessage> QuestionMessages = new();
     private readonly DiscordClient _client;
     private readonly IServiceProvider _serviceProvider;
-    public static readonly Dictionary<ulong, QuestionMessage> QuestionMessages = new();
 
     public Bot(DiscordClient client, IServiceProvider serviceProvider)
     {

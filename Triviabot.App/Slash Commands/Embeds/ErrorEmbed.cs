@@ -6,9 +6,9 @@ public class ErrorEmbed
 {
     public DiscordEmbedBuilder Build()
     {
-        var embed = new DiscordEmbedBuilder()
+        var embed = new DiscordEmbedBuilder
         {
-            Title = "\u274c Oops, something went wrong.",
+            Title = "\u26a0\ufe0f Oops, something went wrong.",
             Color = DiscordColor.Red
         };
 

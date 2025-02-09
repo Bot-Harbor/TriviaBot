@@ -17,7 +17,7 @@ public class QuestionEmbed
             Description =
                 $"\ud83d\udcaa\ud83c\udffb **Difficulty:** {WebUtility.HtmlDecode(result!.Difficulty.ToUpper())}",
             Color = GetCategoryStyle(decodedCategory).color,
-            Thumbnail = new DiscordEmbedBuilder.EmbedThumbnail()
+            Thumbnail = new DiscordEmbedBuilder.EmbedThumbnail
             {
                 Url = GetCategoryStyle(decodedCategory).url
             }
@@ -26,10 +26,7 @@ public class QuestionEmbed
         embed.AddField("\u2753 Question", $"```{WebUtility.HtmlDecode(result.Question)}```");
 
         var choices = new List<string> {WebUtility.HtmlDecode(result.CorrectAnswer)};
-        foreach (var incorrectAnswer in result.IncorrectAnswers)
-        {
-            choices.Add(WebUtility.HtmlDecode(incorrectAnswer));
-        }
+        foreach (var incorrectAnswer in result.IncorrectAnswers) choices.Add(WebUtility.HtmlDecode(incorrectAnswer));
 
         Shuffle(choices);
 
@@ -37,9 +34,7 @@ public class QuestionEmbed
         var buttons = new List<DiscordButtonComponent>();
 
         foreach (var (answerLetter, choice) in answerLetters.Zip(choices))
-        {
-            buttons.Add(new(ButtonStyle.Primary, $"{choice}", $"{answerLetter}. {choice}"));
-        }
+            buttons.Add(new DiscordButtonComponent(ButtonStyle.Primary, $"{choice}", $"{answerLetter}. {choice}"));
 
         var messageBuilder = new DiscordMessageBuilder();
         messageBuilder.AddEmbed(embed);
