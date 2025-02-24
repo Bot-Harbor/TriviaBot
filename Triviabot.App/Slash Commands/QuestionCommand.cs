@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using Triviabot.App.Models;
 using Triviabot.App.Services;
 using Triviabot.App.Slash_Commands.Embeds;
 using Triviabot.App.Slash_Commands.Enums;
@@ -17,7 +18,23 @@ public class QuestionCommand : ApplicationCommandModule
 
         var client = new HttpClient();
         var triviaService = new TriviaService(client);
-        var trivia = await triviaService.Get(category.GetHashCode());
+
+        TriviaModel trivia;
+
+        if (category == default)
+        {
+            var categories = Enum.GetValues(typeof(Category))
+                .Cast<int>()
+                .ToArray();
+
+            Shuffle(categories);
+
+            trivia = await triviaService.Get(categories.FirstOrDefault());
+        }
+        else
+        {
+            trivia = await triviaService.Get(category.GetHashCode());
+        }
 
         if (trivia == null)
         {
@@ -44,5 +61,18 @@ public class QuestionCommand : ApplicationCommandModule
         var questionMessage = Bot.QuestionMessages.GetValueOrDefault(messageInfo.Id);
         questionMessage.CorrectAnswer = results!.CorrectAnswer;
         questionMessage.IncorrectAnswers.AddRange(results.IncorrectAnswers);
+    }
+
+    private void Shuffle<T>(IList<T> list)
+    {
+        var random = new Random();
+
+        var n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            var k = random.Next(n + 1);
+            (list[k], list[n]) = (list[n], list[k]);
+        }
     }
 }

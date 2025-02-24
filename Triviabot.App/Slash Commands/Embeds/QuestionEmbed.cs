@@ -25,12 +25,12 @@ public class QuestionEmbed
 
         embed.AddField("\u2753 Question", $"```{WebUtility.HtmlDecode(result.Question)}```");
 
-        var choices = new List<string> {WebUtility.HtmlDecode(result.CorrectAnswer)};
+        var choices = new List<string> { WebUtility.HtmlDecode(result.CorrectAnswer) };
         foreach (var incorrectAnswer in result.IncorrectAnswers) choices.Add(WebUtility.HtmlDecode(incorrectAnswer));
 
         Shuffle(choices);
 
-        var answerLetters = new[] {"A", "B", "C", "D"};
+        var answerLetters = new[] { "A", "B", "C", "D" };
         var buttons = new List<DiscordButtonComponent>();
 
         foreach (var (answerLetter, choice) in answerLetters.Zip(choices))
@@ -84,9 +84,8 @@ public class QuestionEmbed
             case "Entertainment: Music":
                 return (DiscordColor.Magenta,
                     "https://i.pinimg.com/736x/c6/61/c0/c661c0bbd4c8f0a910fae9e06aebe708.jpg");
-            default:
-                return (DiscordColor.White,
-                    "https://www.meme-arsenal.com/memes/cb17481a7f8ab0c9513baed9b3d83b8a.jpg");
         }
+
+        throw new InvalidOperationException();
     }
 }
